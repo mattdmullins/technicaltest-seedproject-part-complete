@@ -6,16 +6,45 @@ class Store extends Observable {
     this.state = {
       deals: [],
       productFilters: [],
-      providerFilter: null
+      providerFilter: null,
     };
   }
 
   get deals() {
-    return this.filter();
+    const payload = this.filter();
+    return payload;
   }
 
   filter() {
-    return this.state.deals;
+    try {
+      const deals = this.state.deals;
+      const productFilters = this.state.productFilters;
+      const providerFilter = this.state.providerFilter;
+      let foo;
+      let bar;
+      if (productFilters.length) {
+        foo = deals.filter((deal) => {
+          const productTypes = deal.productTypes.map((t) => t.toLowerCase());
+          const payload = productTypes.some(
+            (type) => productFilters.indexOf(type) >= 0
+          );
+          return payload;
+        });
+      } else {
+        foo = deals;
+      }
+      if (providerFilter) {
+        bar = foo.filter((deal) => {
+          const payload = deal.provider.id === providerFilter;
+          return payload;
+        });
+      } else {
+        bar = foo;
+      }
+      return bar;
+    } catch (error) {
+      console.log("error filtering", error);
+    }
   }
 
   setDeals(data) {
