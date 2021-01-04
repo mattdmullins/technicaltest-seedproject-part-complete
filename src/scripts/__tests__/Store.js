@@ -8,7 +8,7 @@ describe("filter", () => {
     mockDeals = mockData.deals;
     // Arrange
     sut = new Store();
-    sut.setDeals(deals);
+    sut.setDeals(mockDeals);
   });
   it("should return all deals when no filters applied", () => {
     // Act
